@@ -1,0 +1,24 @@
+{
+  "name": "mfiles-graphs",
+  "version": "0.1.0",
+  "description": "M-Files UIX client application that displays interactive graphs (Apache ECharts) in the new M-Files Web client.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/build.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "package": "npm run build && node scripts/package.mjs",
+    "clean": "rimraf dist *.mfappx"
+  },
+  "dependencies": {
+    "echarts": "^5.5.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "archiver": "^7.0.1",
+    "esbuild": "^0.23.0",
+    "rimraf": "^5.0.7",
+    "typescript": "^5.5.3"
+  }
+}

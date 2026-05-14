@@ -1,13 +1,81 @@
-# Your GitHub Learning Lab Repository for Introducing GitHub
+# M-Files Graphs
 
-Welcome to **your** repository for your GitHub Learning Lab course. This repository will be used during the different activities that I will be guiding you through. See a word you don't understand? We've included an emoji 📖 next to some key terms. Click on it to see its definition.
+A client-side M-Files UIX application that renders interactive dashboards with
+[Apache ECharts](https://echarts.apache.org/) in the **new M-Files Web** client
+(and the M-Files Desktop client). Built with TypeScript, bundled with esbuild,
+packaged as a `.mfappx` Vault Application.
 
-Oh! I haven't introduced myself...
+## Status
 
-I'm the GitHub Learning Lab bot and I'm here to help guide you in your journey to learn and master the various topics covered in this course. I will be using Issue and Pull Request comments to communicate with you. In fact, I already added an issue for you to check out.
+Early scaffold. Charts render demo data from `src/data/demoSource.ts`. The real
+data source against the M-Files Web Service REST API is stubbed in
+`src/data/mfilesSource.ts` and is the next step.
 
-![issue tab](https://lab.github.com/public/images/issue_tab.png)
+## Stack
 
-I'll meet you over there, can't wait to get started!
+- **TypeScript** (strict) → bundled to a single self-contained `main.js`
+- **esbuild** for fast IIFE bundling (no npm runtime in the M-Files client)
+- **Apache ECharts** 5.x (MIT, rich chart types)
+- **archiver** to zip the build output into a `.mfappx` Vault Application package
 
-This course is using the :sparkles: open source project [reveal.js](https://github.com/hakimel/reveal.js/). In some cases we’ve made changes to the history so it would behave during class, so head to the original project repo to learn more about the cool people behind this project.
+## Project layout
+
+```
+appdef.xml                M-Files Vault Application manifest
+src/
+  dashboard/
+    index.html            Dashboard HTML loaded by the M-Files shell
+    main.ts               Entry point - mounts charts
+  charts/                 ECharts wrappers (line, bar, pie)
+  data/
+    types.ts              ChartDataset + DataSource interface
+    demoSource.ts         Hard-coded demo data
+    mfilesSource.ts       REST API stub (TODO)
+  mfiles/
+    shellListener.ts      OnNewShellUI bootstrap
+scripts/
+  build.mjs               esbuild + copy index.html + appdef.xml → dist/
+  package.mjs             Zip dist/ → mfilesgraphs.mfappx
+```
+
+## Develop
+
+```bash
+npm install
+npm run typecheck         # tsc --noEmit
+npm run build             # produces dist/
+npm run dev               # esbuild watch mode
+npm run package           # build + zip to mfilesgraphs.mfappx
+```
+
+Open `dist/dashboard/index.html` in a browser to preview the dashboard with
+demo data, no M-Files shell required.
+
+## Install in M-Files
+
+1. `npm run package` → produces `mfilesgraphs.mfappx`
+2. In **M-Files Admin**, select the vault → **Applications** → **Install**
+3. Pick `mfilesgraphs.mfappx`
+4. Restart the vault
+5. Open the vault in the new M-Files Web client; the dashboard registers via
+   `appdef.xml`
+
+## Wire a real data source
+
+Replace `demoSource` with `mfilesSource` in `src/dashboard/main.ts` once the
+REST calls are implemented. The new M-Files Web client runs same-origin with
+the vault, so `fetch('/REST/objects?...')` reuses the existing session cookie.
+
+## Push to the Mfilesgraps repo
+
+This branch lives on `github-slideshow` because of a tooling scope limit. To
+move it to the empty target repo locally:
+
+```bash
+git remote set-url origin https://github.com/thomasalbertsen-sv/Mfilesgraps.git
+git push -u origin claude/mfiles-graph-client-app-JC1Pm:main
+```
+
+## License
+
+MIT - see `LICENSE`.

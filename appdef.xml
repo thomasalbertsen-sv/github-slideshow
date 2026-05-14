@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<application xmlns="http://www.m-files.com/schemas/appdef-client-v3.xsd">
+    <guid>6E29E83B-0E61-4816-9B09-EAD6215F9963</guid>
+    <name>M-Files Graphs</name>
+    <version>0.1.0</version>
+    <publisher>thomasalbertsen-sv</publisher>
+    <description>Dashboard with interactive graphs (Apache ECharts) for the new M-Files Web client.</description>
+    <copyright>MIT</copyright>
+
+    <enabled-by-default>true</enabled-by-default>
+    <optional>false</optional>
+
+    <platforms>
+        <platform>Web</platform>
+        <platform>Desktop</platform>
+    </platforms>
+
+    <modules>
+        <module environment="shellui">
+            <file>main.js</file>
+        </module>
+    </modules>
+
+    <dashboards>
+        <dashboard id="graphs.dashboard">
+            <content>dashboard/index.html</content>
+        </dashboard>
+    </dashboards>
+</application>
